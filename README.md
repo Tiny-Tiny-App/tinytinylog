@@ -17,7 +17,10 @@ Activate the environment: `source .venv/bin/activate`
 
 Install requirements: `pip install -r requirements.txt`
 
-# Development
+### Environment
+
+Rename the file `.env.example` to `.env`.
+Update the values in `.env` files. Default values are for development!
 
 ### Run
 
