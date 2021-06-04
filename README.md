@@ -27,3 +27,8 @@ Update the values in `.env` files. Default values are for development!
 Create a Django super user: `./manage.py createsuperuser`
 
 Run the application: `./manage.py runserver`
+
+### Style enforcement
+
+Run `flake8`
+Fix any issue that may come up.
