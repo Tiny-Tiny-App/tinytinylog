@@ -1,6 +1,10 @@
 asgiref==3.3.4
+confusable-homoglyphs==3.2.0
+crispy-bootstrap5==0.4
 Django==3.2.4
+django-crispy-forms==1.11.2
 django-environ==0.4.5
+django-registration==3.1.2
 flake8==3.9.2
 mccabe==0.6.1
 pycodestyle==2.7.0
