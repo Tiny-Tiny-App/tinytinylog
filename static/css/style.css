@@ -1,0 +1,15 @@
+@import url('https://fonts.googleapis.com/css2?family=Oswald&display=swap');
+
+
+:root {
+	--neon-light-green: #b3e48c;
+	--neon-green: #4be0c8;
+	--neon-light-purple: #b257ff;
+	--neon-light-purple: #6779e8;
+	--neon-dark-pink: #c749b8;
+}
+
+body {
+	font-family: 'Oswald', sans-serif;
+	background: var(--neon-light-purple);
+}

@@ -1,10 +1,17 @@
 {% extends "base.html" %}
-
-
 {% block content %}
 
 
-<div class="container default-container shadow  clearfix mt-5 pt-5 pb-5">
-index
+<div class="container">
+	<div class="row">
+		<div class="col-md-5 col-9 mx-auto bg-white py-5 px-5">
+			<h1>Welcome to TinyTinyLog</h1>
+			<p>A tiny app to help you keep track of stuff.</p>
+
+			<p>Have an account? <a href="{% url 'login' %}">Click here to sign in.</a></p>
+	        <p>Don't have an account? <a href="{% url 'django_registration_register' %}">Click here to register.</a></p>
+			
+		</div>
+	</div>
 </div>
 {% endblock %}
