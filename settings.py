@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'crispy_bootstrap5',
     'core.apps.CoreConfig',
+    'log.apps.LogConfig',
 ]
 
 MIDDLEWARE = [
@@ -134,7 +135,7 @@ REGISTRATION_SALT = env('REGISTRATION_SALT')
 
 # registration
 LOGIN_URL = reverse_lazy('login')
-LOGIN_REDIRECT_URL = '/'#reverse_lazy('login')
+LOGIN_REDIRECT_URL = reverse_lazy('log_collections')
 LOGOUT_REDIRECT_URL = '/'
 
 # django crispy forms

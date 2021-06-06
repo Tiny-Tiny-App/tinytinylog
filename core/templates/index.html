@@ -1,15 +1,18 @@
 {% extends "base.html" %}
+{% load static %}
 {% block content %}
 
 
-<div class="container">
+<div class="container mt-5">
 	<div class="row">
-		<div class="col-md-5 col-9 mx-auto bg-white py-5 px-5">
-			<h1>Welcome to TinyTinyLog</h1>
-			<p>A tiny app to help you keep track of stuff.</p>
+		<div class="col-md-6 col-9 mx-auto py-5 px-5 border">
+			<div class="col-md-5 pb-3">
+			<img src="{% static 'img/logo.png'%}" class="img-fluid">
+			</div>
+			<h1>Welcome to Tiny Tiny Log</h1>
+			<p>A <a href="https://tinytiny.app" target="_blank" rel="noopener noreferrer">tiny tiny app</a> to help you keep track of stuff.</p>
 
-			<p>Have an account? <a href="{% url 'login' %}">Click here to sign in.</a></p>
-	        <p>Don't have an account? <a href="{% url 'django_registration_register' %}">Click here to register.</a></p>
+			<p><a href="{% url 'login' %}">Login</a> or <a href="{% url 'django_registration_register' %}">Register.</a></p>
 			
 		</div>
 	</div>

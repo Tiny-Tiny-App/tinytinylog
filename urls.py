@@ -23,5 +23,6 @@ urlpatterns = [
     path('accounts/', include('django_registration.backends.one_step.urls')),
     path('accounts/login/', LoginView.as_view(redirect_authenticated_user=True), name='login'),
     path('accounts/', include('django.contrib.auth.urls')),
+    path('logs/', include('log.urls')),
     path('', include('core.urls')),
 ]
