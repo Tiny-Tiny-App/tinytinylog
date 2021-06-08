@@ -4,6 +4,7 @@ crispy-bootstrap5==0.4
 Django==3.2.4
 django-crispy-forms==1.11.2
 django-environ==0.4.5
+django-htmx==1.1.0
 django-registration==3.1.2
 flake8==3.9.2
 mccabe==0.6.1
