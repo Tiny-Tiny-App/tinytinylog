@@ -20,5 +20,5 @@ class HtmxTemplateResponseMixin(TemplateResponseMixin):
         
         if self.request.htmx:
             return [self.htmx_template_name]
-            
+
         return [self.template_name]

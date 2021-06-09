@@ -8,7 +8,8 @@ class Collection(models.Model):
     name = models.CharField(max_length=255)
     slug = models.SlugField(max_length=255)
     created = models.DateTimeField(default=timezone.now, db_index=True)
-    user = models.ForeignKey(User, on_delete=models.PROTECT)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    # todo: remove ability to delete collections
     archived = models.BooleanField(default=False, db_index=True)
 
     def __str__(self):
