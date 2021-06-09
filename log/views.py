@@ -1,5 +1,6 @@
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic.detail import DetailView
 from django.views.generic.edit import FormView
 from core.mixins import HtmxTemplateResponseMixin
 from .forms import CreateCollectionForm
@@ -32,3 +33,7 @@ class CollectionsView(LoginRequiredMixin, HtmxFormView):
     def form_valid(self, form):
         form.save()
         return super().form_valid(form)
+
+class CollectionDetailView(LoginRequiredMixin, DetailView):
+    model = Collection
+    template_name = 'collection_detail.html'
