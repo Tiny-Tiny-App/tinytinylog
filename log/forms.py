@@ -6,7 +6,7 @@ from django.core.exceptions import ValidationError
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit, Layout, Div, Field
 from crispy_forms.bootstrap import FieldWithButtons, StrictButton
-from .models import Collection, Item
+from .models import Collection, Item, Event
 
 
 PLUS_CIRCLE_ICON = '''<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-circle-fill" viewBox="0 0 16 16">
@@ -207,3 +207,89 @@ class CreateItemForm(forms.ModelForm):
         instance.collection = self.collection
         instance.save()
         return instance
+
+
+class UpdateItemForm(forms.ModelForm):
+
+    def __init__(self, *args, **kwargs):
+        self.user = kwargs.get('initial').get('user')
+        self.collection = kwargs.get('initial').get('collection')
+        self.item = kwargs.get('initial').get('item')
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper(self)
+        self.helper.form_show_labels = False
+        self.helper.form_id = 'updateItemForm'
+
+        self.helper.layout = Layout(
+            Div(
+                Field('name', placeholder='Item name'),
+                Field('description', placeholder='Item description (optional)'),
+                Div(
+                    StrictButton(
+                        CHECKMARK_ICON,
+                        css_class='btn-primary float-end',
+                        type='submit',
+                        hx_post=reverse_lazy('log_collection_item_update', kwargs={'pk': self.item.id}),
+                        hx_swap='outerHTML',
+                        hx_target='#item-update'
+                    ),
+                    css_class='d-grid gap-2',
+                ),
+            ),
+            Div(css_class='clearfix')
+        )
+
+    class Meta:
+        model = Item
+        fields = ['name', 'description']
+
+    def clean_name(self):
+        name = self.cleaned_data.get('name')
+        if not name:
+            raise ValidationError(
+                ERROR_MESSAGES['name_required'],
+                code='name_required'
+            )
+        name = name.lower()
+        
+        # name didn't change
+        if self.item.name == name:
+            return name
+        
+        item = Item.objects.filter(
+            name=name,
+            collection=self.collection,
+        )
+        if item:
+            raise ValidationError(
+                ERROR_MESSAGES['item_exists'],
+                code='item_exists'
+            )
+        return name
+
+    def save(self, commit=True):
+        instance = super().save(commit=False)
+        instance.name = self.cleaned_data.get('name')
+        instance.description = self.cleaned_data.get('description')
+        instance.collection = self.collection
+        instance.save()
+        return instance
+
+
+class CreateEventForm(forms.ModelForm):
+
+    def __init__(self, *args, **kwargs):
+        self.item = kwargs.get('initial').get('item')
+        super().__init__(*args, **kwargs)
+
+    class Meta:
+        model = Event
+        fields = ['comment']
+
+    def save(self, commit=True):
+        instance = super().save(commit=False)
+        instance.item = self.item
+        instance.comment = self.cleaned_data.get('comment')
+        instance.save()
+        return instance
+    

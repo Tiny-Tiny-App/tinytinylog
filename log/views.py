@@ -6,7 +6,7 @@ from django.views.generic.detail import DetailView
 from django.views.generic.edit import FormView, UpdateView
 from django.shortcuts import get_object_or_404, redirect
 from core.mixins import HtmxTemplateResponseMixin
-from .forms import CreateCollectionForm, UpdateCollectionForm, CreateItemForm
+from .forms import CreateCollectionForm, UpdateCollectionForm, CreateItemForm, UpdateItemForm, CreateEventForm
 from .models import Collection, Item, Event
 
 
@@ -148,23 +148,25 @@ class ItemCreateView(LoginRequiredMixin, HtmxFormView):
 
 class ItemUpdateView(LoginRequiredMixin, HtmxUpdateView):
     model = Item
-    form_class = UpdateCollectionForm
+    form_class = UpdateItemForm
     template_name = 'item_update.html'
     htmx_template_name = template_name
     
     def setup(self, request, *args, **kwargs):
         super().setup(request, *args, **kwargs)
-        self.collection = get_object_or_404(Item, pk=self.kwargs.get('pk'))
+        self.item = get_object_or_404(Item, pk=self.kwargs.get('pk'))
+        self.collection = get_object_or_404(Collection, pk=self.item.collection.pk)
+
 
     def get_initial(self):
         initial = super().get_initial()  
         initial['user'] = self.request.user
+        initial['collection'] = self.collection
+        initial['item'] = self.item
         return initial
 
     def get_success_url(self):
-        # note that this may only be called when javascript is turned off
-        pass
-        #return reverse_lazy('', kwargs={'pk': self.collection.id, 'slug': self.collection.slug})
+        return self.collection.get_absolute_url()
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -174,3 +176,42 @@ class ItemUpdateView(LoginRequiredMixin, HtmxUpdateView):
         form.save()
         return super().form_valid(form)
 
+
+class ItemDeleteView(LoginRequiredMixin, View):
+    '''
+    Requires HTMX to function correctly.
+    Means Javascript is required for deleting records.
+    '''
+    def delete_item(self):
+        item = get_object_or_404(
+            Item,
+            pk=self.kwargs.get('pk'),
+            collection__user=self.request.user
+        )
+        redirect_url = reverse_lazy(
+            'log_collection_detail',
+            kwargs={'pk': item.collection.id, 'slug': item.collection.slug})
+        
+        item.delete()
+        return redirect_url
+
+    def delete(self, request, *args, **kwargs):
+        redirect_url = self.delete_item()
+        # the HX-Redirect response header is used by htmx to fire a redirect to the value of the header
+        return HttpResponse(headers={'HX-Redirect': redirect_url})
+
+
+class EventCreateView(LoginRequiredMixin, View):
+    def post(self, request, *args, **kwargs):
+        item = get_object_or_404(
+            Item,
+            pk=self.kwargs.get('pk'),
+            collection__user=self.request.user
+        )
+        form = CreateEventForm(self.request.POST, initial={'item': item})
+        if form.is_valid():
+            form.save()
+        # refreshing at this point
+        # but might make more sense to simply just append the new event to the body
+        return HttpResponse(headers={'HX-Refresh': 'true'})
+    
