@@ -5,6 +5,7 @@ from django.views.generic import View
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import FormView, UpdateView
 from django.shortcuts import get_object_or_404, redirect
+from django.core.paginator import Paginator
 from core.mixins import HtmxTemplateResponseMixin
 from .forms import CreateCollectionForm, UpdateCollectionForm, CreateItemForm, UpdateItemForm, CreateEventForm
 from .models import Collection, Item, Event
@@ -16,6 +17,9 @@ class HtmxFormView(HtmxTemplateResponseMixin, FormView):
 
 class HtmxUpdateView(HtmxTemplateResponseMixin, UpdateView):
     '''A view for displaying a form and rendering a htmx or regular template response to update models'''
+
+class HtmxDetailView(HtmxTemplateResponseMixin, DetailView):
+    '''A view for displaying an object and rendering a htmx or regular template response'''
 
 
 class CollectionsView(LoginRequiredMixin, HtmxFormView):
@@ -42,14 +46,22 @@ class CollectionsView(LoginRequiredMixin, HtmxFormView):
         return super().form_valid(form)
 
 
-class CollectionDetailView(LoginRequiredMixin, DetailView):
+class CollectionDetailView(LoginRequiredMixin, HtmxDetailView):
     model = Collection
     template_name = 'collection_detail.html'
-
+    htmx_template_name = template_name
+    
+    def paginator(self): 
+        self.items = self.object.item_set.all()        
+        events = Event.objects.filter(item__in=self.items).order_by('-created')
+        paginator = Paginator(events, 25)
+        page_number = self.request.GET.get('page', 1)
+        return paginator.get_page(page_number)
+        
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['items'] = self.object.item_set.all()
-        context['events'] = Event.objects.filter(item__in=context['items']).order_by('-created')[:25] # 25 most recent
+        context['page'] = self.paginator()
+        context['items'] = self.items
         return context
     
 
@@ -214,4 +226,24 @@ class EventCreateView(LoginRequiredMixin, View):
         # refreshing at this point
         # but might make more sense to simply just append the new event to the body
         return HttpResponse(headers={'HX-Refresh': 'true'})
-    
+
+
+class EventDeleteView(LoginRequiredMixin, View):
+    '''
+    Requires HTMX to function correctly.
+    Means Javascript is required for deleting records.
+    '''
+    def delete_event(self):
+        event = get_object_or_404(
+            Event,
+            pk=self.kwargs.get('pk'),
+            item__collection__user=self.request.user
+        )
+        event.delete()
+        return True
+
+    def delete(self, request, *args, **kwargs):
+        self.delete_event()
+        # refreshing at this point
+        # but might make more sense to simply just append the new event to the body
+        return HttpResponse(headers={'HX-Refresh': 'true'})

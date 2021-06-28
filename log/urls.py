@@ -8,10 +8,12 @@ from .views import (
     ItemUpdateView,
     ItemDeleteView,
     EventCreateView,
+    EventDeleteView,
 )
 
 
 urlpatterns = [
+    path('collections/item/event/<int:pk>/delete/', EventDeleteView.as_view(), name='log_collection_item_event_delete'),
     path('collections/item/<int:pk>/event/create/', EventCreateView.as_view(), name='log_collection_item_event_create'),
     path('collections/item/delete/<int:pk>/', ItemDeleteView.as_view(), name='log_collection_item_delete'),
     path('collections/item/update/<int:pk>/', ItemUpdateView.as_view(), name='log_collection_item_update'),

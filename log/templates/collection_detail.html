@@ -113,37 +113,86 @@
 				{% endif %}
 			
 
-			{% if events %}
-				<hr>
-				<p>Events</p>
-				<p>
-					Paginate them form the start and have pagination work with htmx.
-					That way no need to have another page.
-					Then add option to delete event. Dont provide option to update
-					<!-- Example: https://github.com/adamchainz/django-htmx/blob/main/example/example/core/views.py -->
-				</p>
-				
-				
-				
+			{% if page %}
+
 				<ul class="list-group list-group-flush my-2 my-md-4">
-					{% for event in events %}
-				  <li class="list-group-item"><span class="badge rounded-pill bg-primary text-white">*</span> 
+					{% for event in page %}
+				  <li class="list-group-item">
 					  
-					  <a href="">
-					   {{ event }}
-				  	  </a>
+					  <a class="text-decoration-none" data-bs-toggle="collapse" href="#collapseEvent-{{ event.id }}" role="button" aria-expanded="false" aria-controls="collapseEvent-{{ event.id }}">
+						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots" viewBox="0 0 16 16">
+						  <path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"/>
+						</svg>
+					  </a>
+					  
+					  {{ event }} - {{ event.created }}
 				  
+				<div class="collapse" id="collapseEvent-{{ event.id }}">
+					
+					{% if event.comment %}
+						<p style="white-space: pre-line">
+							{{ event.comment }}
+						</p>
+					{% else %}
+						<div class="pt-3"></div>
+					{% endif %}
+					
+					
+						<a class="btn btn-outline-danger btn-sm" onclick="deleteEvent('deleteEvent-{{ event.id }}')">
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+  <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+  <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+</svg>
+</a>
+
+<a class="btn btn-sm btn-danger invisible float-end" id="deleteEvent-{{ event.id }}" hx-delete="{% url 'log_collection_item_event_delete' pk=event.pk %}" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
+
+	<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+	  <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+	  <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+	</svg>
+	
+	<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check" viewBox="0 0 16 16">
+	  <path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z"/>
+	</svg>
+
+</a>
+						
+
+
+				</div>
 				  </li>
+				  
+				  
 				  {% endfor %}
 				</ul>
 		 	 {% endif %}
 
+			 {% include 'pagination.html' %}
 		</div>
-			
+
 		</div>
+
 	</div>
+	
 	
 
 </div>
 </div>
+{% endblock %}
+
+{% block js %}
+<script>
+	function deleteEvent(deleteEventButtonElementId) {
+	var deleteButton = document.getElementById(deleteEventButtonElementId);	
+
+	if (deleteButton.classList.contains('invisible')) {
+			deleteButton.classList.remove('invisible')
+	} else {
+		deleteButton.classList.add('invisible')
+	}
+	
+}
+</script>
+
 {% endblock %}
