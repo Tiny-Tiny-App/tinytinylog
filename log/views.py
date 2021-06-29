@@ -1,16 +1,19 @@
 from django.http import HttpResponse
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import View
+from django.views.generic import View, TemplateView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import FormView, UpdateView
 from django.shortcuts import get_object_or_404, redirect
 from django.core.paginator import Paginator
+from django.db.models import Q
 from core.mixins import HtmxTemplateResponseMixin
 from .forms import CreateCollectionForm, UpdateCollectionForm, CreateItemForm, UpdateItemForm, CreateEventForm
 from .models import Collection, Item, Event
 
 
+class HtmxTemplateView(HtmxTemplateResponseMixin, TemplateView):
+    '''A view for rendering a htmx or regular template response'''
 
 class HtmxFormView(HtmxTemplateResponseMixin, FormView):
     '''A view for displaying a form and rendering a htmx or regular template response.'''
@@ -180,10 +183,6 @@ class ItemUpdateView(LoginRequiredMixin, HtmxUpdateView):
     def get_success_url(self):
         return self.collection.get_absolute_url()
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        return context
-
     def form_valid(self, form):
         form.save()
         return super().form_valid(form)
@@ -247,3 +246,18 @@ class EventDeleteView(LoginRequiredMixin, View):
         # refreshing at this point
         # but might make more sense to simply just append the new event to the body
         return HttpResponse(headers={'HX-Refresh': 'true'})
+
+
+class SearchEventsView(LoginRequiredMixin, HtmxTemplateView):
+    template_name = 'search.html'
+    htmx_template_name = 'search_results.html'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        search = self.request.GET.get('search')
+        if search:
+            context['events'] = Event.objects.filter(
+            item__name__icontains=search,
+            item__collection__user=self.request.user
+        ).order_by('-created')        
+        return context

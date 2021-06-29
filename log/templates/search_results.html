@@ -1,0 +1,21 @@
+				{% if events %}
+				<ul class="list-group list-group-flush my-2 my-md-4">
+					
+					
+						{% for event in events %}
+					
+				  <li class="list-group-item"><span class="badge rounded-pill bg-primary text-white">*</span> 
+					  
+					  <a class="text-break word-break" href="#">
+					  	{{ event }} - {{ event.created }}
+				  	  </a>
+				  
+				  </li>
+				  	
+						{% endfor %}
+
+					 
+
+
+				</ul>					
+				{% endif %}

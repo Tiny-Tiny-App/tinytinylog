@@ -9,10 +9,12 @@ from .views import (
     ItemDeleteView,
     EventCreateView,
     EventDeleteView,
+    SearchEventsView,
 )
 
 
 urlpatterns = [
+    path('search/', SearchEventsView.as_view(), name='log_search'),
     path('collections/item/event/<int:pk>/delete/', EventDeleteView.as_view(), name='log_collection_item_event_delete'),
     path('collections/item/<int:pk>/event/create/', EventCreateView.as_view(), name='log_collection_item_event_create'),
     path('collections/item/delete/<int:pk>/', ItemDeleteView.as_view(), name='log_collection_item_delete'),
