@@ -18,7 +18,7 @@ class Collection(models.Model):
             'log_collection_detail',
             kwargs={
                 'slug': self.slug,
-                'pk': self.pk,
+                'collection_pk': self.pk,
             },
         )
 

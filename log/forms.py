@@ -50,7 +50,6 @@ class CreateCollectionForm(forms.ModelForm):
                         css_class='btn-primary',
                         type='submit',
                         hx_post=reverse_lazy('log_collections'),
-                        hx_swap='outerHTML',
                         hx_target='#collections'
                     ),
                 ), 
@@ -169,9 +168,6 @@ class CreateItemForm(forms.ModelForm):
                     PLUS_CIRCLE_ICON,
                     css_class='btn-primary float-end',
                     type='submit',
-                    hx_post=reverse_lazy('log_collection_item_create', kwargs={'pk': self.collection.id}),
-                    hx_swap='outerHTML',
-                    hx_target='#item-create'
                 ),
             ),
             Div(css_class='clearfix')
@@ -227,11 +223,8 @@ class UpdateItemForm(forms.ModelForm):
                 Div(
                     StrictButton(
                         CHECKMARK_ICON,
-                        css_class='btn-primary float-end',
-                        type='submit',
-                        hx_post=reverse_lazy('log_collection_item_update', kwargs={'pk': self.item.id}),
-                        hx_swap='outerHTML',
-                        hx_target='#item-update'
+                        css_class='btn-success float-end',
+                        type='submit'
                     ),
                     css_class='d-grid gap-2',
                 ),
@@ -274,22 +267,3 @@ class UpdateItemForm(forms.ModelForm):
         instance.collection = self.collection
         instance.save()
         return instance
-
-
-class CreateEventForm(forms.ModelForm):
-
-    def __init__(self, *args, **kwargs):
-        self.item = kwargs.get('initial').get('item')
-        super().__init__(*args, **kwargs)
-
-    class Meta:
-        model = Event
-        fields = ['comment']
-
-    def save(self, commit=True):
-        instance = super().save(commit=False)
-        instance.item = self.item
-        instance.comment = self.cleaned_data.get('comment')
-        instance.save()
-        return instance
-    

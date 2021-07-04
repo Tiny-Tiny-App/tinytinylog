@@ -9,20 +9,9 @@
 	<div class="row">
 		<div class="col-md-6 col-9 mx-auto g-0 pb-2">
 			<p class="float-end">
-				<a class="text-decoration-none" href="{% url 'log_collection_detail' slug=collection.slug pk=collection.pk %}">
-				<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-house-fill" viewBox="0 0 16 16">
-					  <title>Collection</title>
-				  <path fill-rule="evenodd" d="m8 3.293 6 6V13.5a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 13.5V9.293l6-6zm5-.793V6l-2-2V2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5z"/>
-				  <path fill-rule="evenodd" d="M7.293 1.5a1 1 0 0 1 1.414 0l6.647 6.646a.5.5 0 0 1-.708.708L8 2.207 1.354 8.854a.5.5 0 1 1-.708-.708L7.293 1.5z"/>
-				</svg>
-				</a>
-				&nbsp;
-
-				<a class="text-decoration-none" href="{% url 'logout' %}">
-					<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-person-lines-fill" viewBox="0 0 16 16">
-    <title>User settings</title>
-  <path d="M6 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm-5 6s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zM11 3.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1h-4a.5.5 0 0 1-.5-.5zm.5 2.5a.5.5 0 0 0 0 1h4a.5.5 0 0 0 0-1h-4zm2 3a.5.5 0 0 0 0 1h2a.5.5 0 0 0 0-1h-2zm0 3a.5.5 0 0 0 0 1h2a.5.5 0 0 0 0-1h-2z"/>
-</svg></a></p>
+				{% include 'partials/nav/home_icon.html' %}
+				{% include 'partials/nav/user_icon.html' %}	
+			</p>
 		</div>
 	</div>
 	
@@ -31,29 +20,12 @@
 			
 				<h1 class="my-2">{{ collection.name }}</h1>
 				
-				<div id="success"></div>
 				
 				<div class="my-3 pb-lg-2 pb-1" id="createItem">
-					<p class="text-muted py-0 my-0"><small>create item</small></p>
+					<p class="text-muted py-0 my-0"><small>Create item</small></p>
 				{% crispy form %}
 				</div>
 
 </div>
 </div>
-{% endblock %}
-
-{% block js %}
-<script>
-	document.body.addEventListener("success", function(evt){
-		showSuccessMessage();  
-	})
-	
-	function showSuccessMessage() {
-		var successDiv = document.getElementById("success");
-		// empty out the div innards before adding.
-		// fugly
-		successDiv.innerHTML = '';
-		successDiv.innerHTML += '<p>Success!</p>';
-	}
-</script>
 {% endblock %}

@@ -4,7 +4,6 @@ from django.views.generic.base import TemplateResponseMixin
 
 class HtmxTemplateResponseMixin(TemplateResponseMixin):
     htmx_template_name = None
-    
 
     def get_template_names(self):
         """

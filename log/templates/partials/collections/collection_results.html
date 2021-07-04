@@ -1,0 +1,20 @@
+<ul class="list-group list-group-flush my-2 my-md-4">
+	
+	{% if collections %}
+		{% for collection in collections %}
+	
+  <li class="list-group-item">
+	  <a class="text-break word-break" href="{% url 'log_collection_detail' slug=collection.slug collection_pk=collection.pk %}">
+	  	{{ collection.name }}
+  	  </a>
+  
+  </li>
+  	
+		{% endfor %}
+	{% else %}
+	
+	<li class="list-group-item">No collections found. Please add one to get started.</li>
+	
+	{% endif %}
+
+</ul>
