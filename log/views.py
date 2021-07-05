@@ -1,3 +1,4 @@
+import logging
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
@@ -7,6 +8,8 @@ from django.core.paginator import Paginator
 from core.htmx_views import HtmxTemplateView, HtmxFormView, HtmxUpdateView
 from .forms import CreateCollectionForm, UpdateCollectionForm, CreateItemForm, UpdateItemForm
 from .models import Collection, Item, Event
+
+logger = logging.getLogger(__name__)
 
 
 class CollectionsView(LoginRequiredMixin, HtmxFormView):
