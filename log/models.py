@@ -12,7 +12,7 @@ class Collection(models.Model):
 
     def __str__(self):
         return self.name
-    
+
     def get_absolute_url(self):
         return reverse_lazy(
             'log_collection_detail',

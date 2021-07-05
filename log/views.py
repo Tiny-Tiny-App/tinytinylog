@@ -1,14 +1,10 @@
-from django.http import HttpResponse
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
 from django.views.generic import View
-from django.views.generic.detail import DetailView
-from django.shortcuts import get_object_or_404, redirect, render
+from django.shortcuts import get_object_or_404, redirect
 from django.core.paginator import Paginator
-from django.core.exceptions import BadRequest
-from django.db.models import Q
-from core.htmx_views import HtmxTemplateView, HtmxFormView, HtmxUpdateView, HtmxDetailView
+from core.htmx_views import HtmxTemplateView, HtmxFormView, HtmxUpdateView
 from .forms import CreateCollectionForm, UpdateCollectionForm, CreateItemForm, UpdateItemForm
 from .models import Collection, Item, Event
 
@@ -20,10 +16,10 @@ class CollectionsView(LoginRequiredMixin, HtmxFormView):
     success_url = reverse_lazy('log_collections')
 
     def get_initial(self):
-        initial = super().get_initial()  
+        initial = super().get_initial()
         initial['user'] = self.request.user
         return initial
-        
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['collections'] = Collection.objects.filter(user=self.request.user).order_by('name')
@@ -37,17 +33,17 @@ class CollectionsView(LoginRequiredMixin, HtmxFormView):
 class CollectionView(LoginRequiredMixin, HtmxTemplateView):
     template_name = 'collection_detail.html'
     htmx_template_name = 'partials/collections/collection_items_events.html'
-    
+
     def get_collection(self):
         return get_object_or_404(Collection, pk=self.kwargs.get('collection_pk'), user=self.request.user)
-    
-    def paginator(self): 
-        self.items = self.get_collection().item_set.all()        
+
+    def paginator(self):
+        self.items = self.get_collection().item_set.all()
         events = Event.objects.filter(item__in=self.items).order_by('-created')
         paginator = Paginator(events, 25)
         page_number = self.request.GET.get('page', 1)
         return paginator.get_page(page_number)
-        
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['collection'] = self.get_collection()
@@ -62,7 +58,7 @@ class CollectionView(LoginRequiredMixin, HtmxTemplateView):
             pk=self.kwargs.get('item_pk'),
             collection__user=self.request.user
         )
-        event = Event.objects.create(
+        Event.objects.create(
             item=item,
             comment=self.request.POST.get('comment'),
         )
@@ -74,13 +70,13 @@ class CollectionUpdateView(LoginRequiredMixin, HtmxUpdateView):
     form_class = UpdateCollectionForm
     template_name = 'collection_update.html'
     htmx_template_name = template_name
-    
+
     def setup(self, request, *args, **kwargs):
         super().setup(request, *args, **kwargs)
         self.collection = get_object_or_404(Collection, pk=self.kwargs.get('pk'), user=self.request.user)
 
     def get_initial(self):
-        initial = super().get_initial()  
+        initial = super().get_initial()
         initial['user'] = self.request.user
         initial['collection'] = self.collection
         return initial
@@ -134,14 +130,14 @@ class ItemCreateView(LoginRequiredMixin, HtmxFormView):
         )
 
     def get_initial(self):
-        initial = super().get_initial()  
+        initial = super().get_initial()
         initial['user'] = self.request.user
         initial['collection'] = self.collection
         return initial
 
     def get_success_url(self):
         return self.collection.get_absolute_url()
-        
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['collection'] = self.collection
@@ -151,10 +147,9 @@ class ItemCreateView(LoginRequiredMixin, HtmxFormView):
         form.save()
         messages.success(self.request, 'Hello world.')
         return super().form_valid(form)
-    
+
     def form_invalid(self, form):
         return super().form_invalid(form)
-
 
 
 class ItemUpdateView(LoginRequiredMixin, HtmxUpdateView):
@@ -162,14 +157,14 @@ class ItemUpdateView(LoginRequiredMixin, HtmxUpdateView):
     form_class = UpdateItemForm
     template_name = 'item_update.html'
     htmx_template_name = template_name
-    
+
     def setup(self, request, *args, **kwargs):
         super().setup(request, *args, **kwargs)
         self.item = get_object_or_404(Item, pk=self.kwargs.get('pk'))
         self.collection = get_object_or_404(Collection, pk=self.item.collection.pk)
 
     def get_initial(self):
-        initial = super().get_initial()  
+        initial = super().get_initial()
         initial['user'] = self.request.user
         initial['collection'] = self.collection
         initial['item'] = self.item
@@ -224,13 +219,13 @@ class EventDeleteView(LoginRequiredMixin, View):
 class SearchEventsView(LoginRequiredMixin, HtmxTemplateView):
     template_name = 'search.html'
     htmx_template_name = 'search_results.html'
-    
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         search = self.request.GET.get('search')
         if search:
             context['events'] = Event.objects.filter(
-            item__name__icontains=search,
-            item__collection__user=self.request.user
-        ).order_by('-created')        
+                item__name__icontains=search,
+                item__collection__user=self.request.user
+            ).order_by('-created')
         return context

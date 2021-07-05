@@ -11,12 +11,12 @@ class HtmxTemplateResponseMixin(TemplateResponseMixin):
         a list. May not be called if render_to_response() is overridden.
         """
         super().get_template_names()
-        
+
         if self.template_name is None or self.htmx_template_name is None:
             raise ImproperlyConfigured(
                 "HtmxTemplateResponseMixin requires either a definition of "
                 "'htmx_template_name' and 'template_name' or an implementation of 'get_template_names()'")
-        
+
         if self.request.htmx:
             return [self.htmx_template_name]
 
