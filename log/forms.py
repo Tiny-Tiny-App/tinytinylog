@@ -114,7 +114,6 @@ class UpdateCollectionForm(forms.ModelForm):
                         css_class='btn-success',
                         type='submit',
                         hx_post=reverse_lazy('log_collection_update', kwargs={'pk': self.collection.id, 'slug': self.collection.slug}),
-                        hx_swap='outerHTML',
                         hx_target='#collection-update'
                     ),
                 ),
@@ -167,10 +166,15 @@ class CreateItemForm(forms.ModelForm):
             Div(
                 Field('name', placeholder='Item name'),
                 Field('description', placeholder='Item description (optional)'),
-                StrictButton(
-                    PLUS_CIRCLE_ICON,
-                    css_class='btn-primary float-end',
-                    type='submit',
+                Div(
+                    StrictButton(
+                        PLUS_CIRCLE_ICON,
+                        css_class='btn-primary float-end',
+                        type='submit',
+                        hx_post=reverse_lazy('log_collection_item_create', kwargs={'pk': self.collection.id}),
+                        hx_target='#item-create'
+                    ),
+                    css_class='d-grid gap-2',
                 ),
             ),
             Div(css_class='clearfix')
@@ -212,7 +216,6 @@ class UpdateItemForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         self.user = kwargs.get('initial').get('user')
-        self.collection = kwargs.get('initial').get('collection')
         self.item = kwargs.get('initial').get('item')
         super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
@@ -227,7 +230,9 @@ class UpdateItemForm(forms.ModelForm):
                     StrictButton(
                         CHECKMARK_ICON,
                         css_class='btn-success float-end',
-                        type='submit'
+                        type='submit',
+                        hx_post=reverse_lazy('log_collection_item_update', kwargs={'pk': self.item.id}),
+                        hx_target='#item-update'
                     ),
                     css_class='d-grid gap-2',
                 ),
@@ -254,7 +259,7 @@ class UpdateItemForm(forms.ModelForm):
 
         item = Item.objects.filter(
             name=name,
-            collection=self.collection,
+            collection=self.item.collection,
         )
         if item:
             raise ValidationError(
@@ -267,6 +272,6 @@ class UpdateItemForm(forms.ModelForm):
         instance = super().save(commit=False)
         instance.name = self.cleaned_data.get('name')
         instance.description = self.cleaned_data.get('description')
-        instance.collection = self.collection
+        instance.collection = self.item.collection
         instance.save()
         return instance

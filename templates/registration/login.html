@@ -1,24 +1,32 @@
 {% extends "base.html" %}
+{% load static %}
 {% load crispy_forms_tags %}
-
-
 {% block content %}
 
-<div class="container clearfix mt-5 pt-5 pb-5 bg-light">
-    <div class="row">
-      <div class="col-lg-6">
+<div class="container mt-5 mb-5">
+	
+	<div class="row">
+		<div class="col-md-6 col-9 mx-auto bg-white shadow-lg rounded">
+			
 
-        <p>Don't have an account? <a href="{% url 'django_registration_register' %}">Click here to register.</a></p>
-
-        <form method="post" action=".">
-            {% csrf_token %}
-            {{ form|crispy }}
-        
-        <input class="btn btn-success" type="submit" value="Submit" />
-        </form>
-
-        {# Assumes you setup the password_reset view in your URLconf #}
-        <p><a href="">Lost password?</a></p>
+		<div class="col-md-6 mx-auto">
+			<div class="col-md-5 col-5 py-3 mx-auto">
+			<img src="{% static 'img/logo.png'%}" class="img-fluid">
+			</div>
+			
+        	<form method="post">
+            	{% csrf_token %}
+            	{{ form|crispy }}
+			
+  			<div class="d-grid gap-2">
+        		<input class="btn btn-success" type="submit" value="Login">
+        	</div>
+			</form>
+			
+			<p class="mt-3 mb-0 pb-0"><a href="{% url 'django_registration_register' %}">Register</a></p>
+			<p class="p-0 pt-0"><a href="">Update Password</a></p>
+			
+		</div>
 
         </div>
     </div>

@@ -72,7 +72,7 @@ class CollectionUpdateView(LoginRequiredMixin, HtmxUpdateView):
     model = Collection
     form_class = UpdateCollectionForm
     template_name = 'collection_update.html'
-    htmx_template_name = template_name
+    htmx_template_name = 'partials/collections/update_collection.html'
 
     def setup(self, request, *args, **kwargs):
         super().setup(request, *args, **kwargs)
@@ -122,7 +122,7 @@ class CollectionDeleteView(LoginRequiredMixin, View):
 class ItemCreateView(LoginRequiredMixin, HtmxFormView):
     form_class = CreateItemForm
     template_name = 'item_create.html'
-    htmx_template_name = template_name
+    htmx_template_name = 'partials/items/item_form.html'
 
     def setup(self, request, *args, **kwargs):
         super().setup(request, *args, **kwargs)
@@ -139,7 +139,7 @@ class ItemCreateView(LoginRequiredMixin, HtmxFormView):
         return initial
 
     def get_success_url(self):
-        return self.collection.get_absolute_url()
+        return reverse_lazy('log_collection_item_create', kwargs={'pk': self.collection.pk})
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -148,7 +148,7 @@ class ItemCreateView(LoginRequiredMixin, HtmxFormView):
 
     def form_valid(self, form):
         form.save()
-        messages.success(self.request, 'Hello world.')
+        messages.success(self.request, 'Item created!')
         return super().form_valid(form)
 
     def form_invalid(self, form):
@@ -159,31 +159,30 @@ class ItemUpdateView(LoginRequiredMixin, HtmxUpdateView):
     model = Item
     form_class = UpdateItemForm
     template_name = 'item_update.html'
-    htmx_template_name = template_name
+    htmx_template_name = 'partials/items/item_update_form.html'
 
     def setup(self, request, *args, **kwargs):
         super().setup(request, *args, **kwargs)
         self.item = get_object_or_404(Item, pk=self.kwargs.get('pk'))
-        self.collection = get_object_or_404(Collection, pk=self.item.collection.pk)
 
     def get_initial(self):
         initial = super().get_initial()
         initial['user'] = self.request.user
-        initial['collection'] = self.collection
         initial['item'] = self.item
         return initial
 
     def get_success_url(self):
-        return self.collection.get_absolute_url()
+        return reverse_lazy('log_collection_item_update', kwargs={'pk': self.item.id})
 
     def get_context_data(self, **kwargs):
-        # added to pass context to navigation partials
         context = super().get_context_data(**kwargs)
-        context['collection'] = self.collection
+        # added to pass context to navigation partials
+        context['collection'] = self.item.collection
         return context
 
     def form_valid(self, form):
         form.save()
+        messages.success(self.request, 'Item updated!')
         return super().form_valid(form)
 
 

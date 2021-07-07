@@ -1,9 +1,6 @@
 {% extends "base.html" %}
-{% load static %}
-{% load crispy_forms_tags %}
 {% block content %}
 
-<div id="item-update">
 <div class="container mt-5 mb-5">
 	
 	<div class="row">
@@ -16,83 +13,9 @@
 		</div>
 	</div>
 	
-	<div class="row">
-		<div class="col-md-6 col-9 mx-auto bg-white shadow-lg rounded">
-			
-				<h1 class="my-2">{{ item.collection.name }}</h1>
-				
-				<div id="success"></div>
-				
-				<div class="my-3 pb-lg-2 pb-1" id="createItem">
-					<p class="text-muted py-0 my-0"><small>Update item</small></p>
-				{% crispy form %}
-				</div>
-				
-				
-				
-				<!-- delete item -->
-
-				<div class="d-grid gap-2 my-3">
-				  <a class="btn btn-outline-danger btn-sm" data-bs-toggle="collapse" href="#deleteItem" role="button" aria-expanded="false" aria-controls="deleteItem">
-						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
-							<title>Delete item</title>
-						  <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
-						  <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
-						</svg>
-					&nbsp; Delete Item
-				  </a>
-				  </div>
-				  
-				  <!-- collapse -->
-				  
-  				<div class="my-3 collapse" id="deleteItem">
-  					<div class="card border-danger mb-3">
-  					    <div class="card-header bg-danger text-light">							
-  							Danger Zone
-  					    </div>
-  					  <div class="card-body">
-						 
-  					    <p class="card-text">
-							
-  							<p class="fw-bold">
-
-  								<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-exclamation-diamond" viewBox="0 0 16 16">
-  									<title>Warning</title>
-  								  <path d="M6.95.435c.58-.58 1.52-.58 2.1 0l6.515 6.516c.58.58.58 1.519 0 2.098L9.05 15.565c-.58.58-1.519.58-2.098 0L.435 9.05a1.482 1.482 0 0 1 0-2.098L6.95.435zm1.4.7a.495.495 0 0 0-.7 0L1.134 7.65a.495.495 0 0 0 0 .7l6.516 6.516a.495.495 0 0 0 .7 0l6.516-6.516a.495.495 0 0 0 0-.7L8.35 1.134z"/>
-  								  <path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995z"/>
-  								</svg>
-  								Deleting an item will delete all of its related logs.
- 
-
-  							Deleted data cannot be recovered.
-  							</p>
-							
-  							<p class="my-0 py-0">Please type the name of the item to confirm your decision:</p>
-							
-  							<input id="itemNameInput" type="text" class="textinput textInput form-control mb-2 border-danger" name="itemName" onkeyup="enableDeleteButton()">
-  							<div class="d-grid gap-2">
-  							<a id="deleteButton" class="btn btn-danger disabled"  tabindex="-1" role="button" aria-disabled="true" href="{% url 'log_collection_item_delete' pk=item.pk %}">
-  								<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
-  									<title>Delete item</title>
-  								  <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
-  								  <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
-  								</svg>
-  							&nbsp; Delete Item
-  						</a>
-  					</div>
-								
-							
-							
-  					    </p>
-  					  </div>
-  					</div>
-  				</div>
-				
-				
-				
-
-</div>
-</div>
+	<div id="item-update">
+		{% include 'partials/items/item_update_form.html' %}
+	</div>
 {% endblock %}
 
 {% block js %}

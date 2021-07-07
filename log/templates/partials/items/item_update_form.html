@@ -1,0 +1,20 @@
+{% load crispy_forms_tags %}		
+<div class="row">
+	<div class="col-md-6 col-9 mx-auto bg-white shadow-lg rounded">
+	
+			<h1 class="my-2">{{ item.collection.name }}</h1>
+		
+			{% if messages %}
+		    	{% for message in messages %}
+					<p class="text-success fw-bold">{{ message }}</p>
+		    	{% endfor %}
+			{% endif %}
+		
+			<div class="my-3 pb-lg-2 pb-1" id="createItem">
+				<p class="text-muted py-0 my-0"><small>Update item</small></p>
+			{% crispy form %}
+			</div>
+			
+			{% include 'partials/items/item_delete.html' %}
+	</div>
+</div>

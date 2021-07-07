@@ -1,0 +1,27 @@
+{% load crispy_forms_tags %}
+	<div class="row">
+		<div class="col-md-6 col-9 mx-auto bg-white shadow-lg rounded">
+			
+				<h1 class="my-2">{{ collection.name }}</h1>
+			
+
+				<div class="my-3 pb-lg-2 pb-1" id="updateCollection">
+					<p class="text-muted py-0 my-0"><small>Update collection name</small></p>
+				{% crispy form %}
+				</div>
+				
+				
+				<!-- add item -->
+				<div id="addItem">
+
+					<div class="d-grid gap-2 my-3">
+						<a href="{% url 'log_collection_item_create' pk=collection.id %}" class="btn btn-outline-primary btn-sm">
+							Add Item
+						</a>
+					</div>
+					
+				</div>
+				
+				{% include 'partials/collections/delete_collection.html' %}
+		</div>
+	</div>

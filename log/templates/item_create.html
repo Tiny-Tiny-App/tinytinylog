@@ -1,9 +1,7 @@
 {% extends "base.html" %}
-{% load static %}
-{% load crispy_forms_tags %}
 {% block content %}
 
-<div id="item-create">
+
 <div class="container mt-5 mb-5">
 	
 	<div class="row">
@@ -14,18 +12,10 @@
 			</p>
 		</div>
 	</div>
-	
-	<div class="row">
-		<div class="col-md-6 col-9 mx-auto bg-white shadow-lg rounded">
-			
-				<h1 class="my-2">{{ collection.name }}</h1>
-				
-				
-				<div class="my-3 pb-lg-2 pb-1" id="createItem">
-					<p class="text-muted py-0 my-0"><small>Create item</small></p>
-				{% crispy form %}
-				</div>
+	<div id="item-create">
+		{% include 'partials/items/item_form.html' %}
+	</div>
+</div>
 
-</div>
-</div>
+
 {% endblock %}
