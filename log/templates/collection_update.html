@@ -6,6 +6,7 @@
 	
 	<div class="row">
 		<div class="col-md-6 col-9 mx-auto g-0 pb-2">
+			{% include 'partials/nav/loading_icon.html' %}
 			<p class="float-end">
 				{% include 'partials/nav/home_icon.html' %}
 				{% include 'partials/nav/user_icon.html' %}	
@@ -18,22 +19,5 @@
 	</div>
 
 </div>
-
-{% endblock %}
-
-{% block js %}
-<script>
-	function enableDeleteButton() {
-	var collectionNameInput = document.getElementById("collectionNameInput").value;
-	var deleteButton = document.getElementById('deleteButton');
-		if (collectionNameInput == '{{ collection.name }}') {
-			var deleteButton = document.getElementById('deleteButton');
-			deleteButton.classList.remove('disabled');
-		} 
-		else if (!deleteButton.classList.contains('disabled')) {
-				deleteButton.classList.add('disabled')
-		}	
-	}
-</script>
 
 {% endblock %}

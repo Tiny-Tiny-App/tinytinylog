@@ -220,7 +220,7 @@ class EventDeleteView(LoginRequiredMixin, View):
 
 class SearchEventsView(LoginRequiredMixin, HtmxTemplateView):
     template_name = 'search.html'
-    htmx_template_name = 'search_results.html'
+    htmx_template_name = 'partials/collections/search_results.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

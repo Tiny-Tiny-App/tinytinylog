@@ -48,3 +48,20 @@
 				</div>
 
 		</div>
+
+{% block js %}
+<script>
+	function enableDeleteButton() {
+	var collectionNameInput = document.getElementById("collectionNameInput").value;
+	var deleteButton = document.getElementById('deleteButton');
+		if (collectionNameInput == '{{ collection.name }}') {
+			var deleteButton = document.getElementById('deleteButton');
+			deleteButton.classList.remove('disabled');
+		} 
+		else if (!deleteButton.classList.contains('disabled')) {
+				deleteButton.classList.add('disabled')
+		}	
+	}
+</script>
+
+{% endblock %}

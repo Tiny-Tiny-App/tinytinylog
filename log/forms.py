@@ -53,7 +53,8 @@ class CreateCollectionForm(forms.ModelForm):
                         css_class='btn-primary',
                         type='submit',
                         hx_post=reverse_lazy('log_collections'),
-                        hx_target='#collections'
+                        hx_target='#collections',
+                        hx_indicator="#indicator",
                     ),
                 ),
             )
@@ -114,7 +115,8 @@ class UpdateCollectionForm(forms.ModelForm):
                         css_class='btn-success',
                         type='submit',
                         hx_post=reverse_lazy('log_collection_update', kwargs={'pk': self.collection.id, 'slug': self.collection.slug}),
-                        hx_target='#collection-update'
+                        hx_target='#collection-update',
+                        hx_indicator="#indicator",
                     ),
                 ),
             )
@@ -172,7 +174,8 @@ class CreateItemForm(forms.ModelForm):
                         css_class='btn-primary float-end',
                         type='submit',
                         hx_post=reverse_lazy('log_collection_item_create', kwargs={'pk': self.collection.id}),
-                        hx_target='#item-create'
+                        hx_target='#item-create',
+                        hx_indicator="#indicator",
                     ),
                     css_class='d-grid gap-2',
                 ),
@@ -232,7 +235,8 @@ class UpdateItemForm(forms.ModelForm):
                         css_class='btn-success float-end',
                         type='submit',
                         hx_post=reverse_lazy('log_collection_item_update', kwargs={'pk': self.item.id}),
-                        hx_target='#item-update'
+                        hx_target='#item-update',
+                        hx_indicator="#indicator",
                     ),
                     css_class='d-grid gap-2',
                 ),
