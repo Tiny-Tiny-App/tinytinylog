@@ -5,7 +5,7 @@
 	
   <li class="list-group-item">
 	  <a class="text-break word-break" href="{% url 'log_collection_detail' slug=collection.slug collection_pk=collection.pk %}">
-	  	{{ collection.name }}
+	  	{{ collection.name|capfirst }}
   	  </a>
   
   </li>

@@ -6,13 +6,49 @@
 <div class="container mt-5">
 	<div class="row">
 		<div class="col-md-6 col-9 mx-auto py-5 px-5 rounded shadow-lg bg-white">
-			<div class="col-md-5 pb-3">
+			<div class="col-md-3 col-5 pb-3 mx-auto">
 			<img src="{% static 'img/logo.png'%}" class="img-fluid">
 			</div>
-			<h1>Welcome to Tiny Tiny Log</h1>
-			<p>A <a href="https://tinytiny.app" target="_blank" rel="noopener noreferrer">tiny tiny app</a> to help you keep track of stuff.</p>
+			
+			<div class="col-md-9 mx-auto">
+			<p class=" lead text-center">A <a href="https://tinytiny.app" target="_blank" rel="noopener noreferrer">Tiny Tiny App</a> to help you keep track of stuff and get on with your day.</p>
+			
+			<p class="text-center">
+				<a href="{% url 'django_registration_register' %}" class="btn btn-outline-success">Register</a> 
+				<a href="{% url 'login' %}" class="btn btn-primary">Sign In</a>
+			</p>
+			<div class="card">
+			  <img src="{% static 'img/tour/collections.png'%}" class="card-img-top img-fluid" alt="collections">
+			  <div class="card-body">
+			    <p class="card-text">Create collections of things to track and keep things tidy and easy to access.</p>
+			  </div>
+			</div>
+			
+			<div class="py-3">
+			<div class="card">
+			  <img src="{% static 'img/tour/collection-car.png'%}" class="card-img-top img-fluid" alt="collections">
+			  <div class="card-body">
+			    <p class="card-text">One-click tracking of stuff. Leave a comment (if you want).</p>
+			  </div>
+			</div>
+			</div>
+			
+			<div class="py-3">
+			<div class="card">
+			  <img src="{% static 'img/tour/search.png'%}" class="card-img-top img-fluid" alt="collections">
+			  <div class="card-body">
+			    <p class="card-text">Search for stuff you've logged. No need to remember anything.</p>
+			  </div>
+			</div>
+			</div>
 
-			<p><a href="{% url 'login' %}">Login</a> or <a href="{% url 'django_registration_register' %}">Register.</a></p>
+			
+			
+			
+			
+			
+
+			
 			
 		</div>
 	</div>

@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<div class="container mt-5 mb-5">
+	<div class="row">
+		<div class="col-md-6 col-9 mx-auto bg-white shadow-lg rounded">
+			<div class="col-md-6 mx-auto py-5">
+				<div class="col-md-5 col-5 py-4 mx-auto">
+					<a href="{% url 'index' %}">
+						<img src="{% static 'img/logo.png'%}" class="img-fluid">
+					</a>
+				</div>
+				<p class="text-center">Your account was deleted. Goodbye!</p>
+			</div>
+        </div>
+    </div>
+</div>
+{% endblock %}

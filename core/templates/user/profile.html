@@ -3,9 +3,8 @@
 {% load crispy_forms_tags %}
 {% block content %}
 
-
+	<div id="swap">
 	<div class="container mt-5 mb-5">
-	
 	<div class="row">
 		<div class="col-md-6 col-9 mx-auto g-0 pb-2">
 			{% include 'partials/nav/loading_icon.html' %}
@@ -18,7 +17,7 @@
 	
 	<div class="row">
 		<div class="col-md-6 col-9 mx-auto bg-white shadow-lg rounded">
-				<div class=" mt-3" id="user-profile">
+				<div class="mt-3" id="user-profile">
 					
 					
 					<div class="card">
@@ -26,8 +25,8 @@
 					    <h5 class="card-title">{{ request.user.username }}</h5>
 					    <p class="card-subtitle mb-2 text-muted"><small>Joined: {{ request.user.date_joined }}</small></p>
 					    <p class="card-text">Last Sign in: {{ request.user.last_login }}</p>
-					    <a href="{% url 'password_change' %}" class="card-link btn btn-sm btn-outline-primary">Upate Password</a>
-						<a href="{% url 'logout' %}" class="card-link btn btn-sm btn-warning">Sign Out</a>
+					    <a href="{% url 'password_change' %}" class="card-link btn btn-sm btn-outline-primary"><small>Update Password</small></a>
+						<a href="{% url 'logout' %}" class="card-link btn btn-sm btn-primary">Sign Out</a>
 					  </div>
 					</div>
 					
@@ -37,6 +36,7 @@
 	</div>
 </div>
 	
+</div>
 </div>
 </div>
 {% endblock %}

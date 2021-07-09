@@ -4,11 +4,17 @@
 					
 						{% for event in events %}
 					
-				  <li class="list-group-item"><span class="badge rounded-pill bg-primary text-white">*</span> 
+				  <li class="list-group-item">
 					  
-					  <a class="text-break word-break" href="#">
-					  	{{ event }} - {{ event.created }}
-				  	  </a>
+					  
+						<p class="mb-0 pb-0">
+					  	{{ event }} - <small>{{ event.created }}</small>
+						</p>
+						<p class="m-0 p-0">
+							{{ event.comment }}
+						</p>
+						<hr>
+				  	
 				  
 				  </li>
 				  	
