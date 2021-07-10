@@ -3,24 +3,25 @@
 {% block content %}
 
 
-<div class="container mt-5">
+<div class="container my-md-5">
 	<div class="row">
-		<div class="col-md-6 col-9 mx-auto py-5 px-5 rounded shadow-lg bg-white">
+		<div class="col-md-6 col-lg-6 col-12 mx-auto py-5 px-5 rounded shadow-lg bg-white">
 			<div class="col-md-3 col-5 pb-3 mx-auto">
 			<img src="{% static 'img/logo.png'%}" class="img-fluid">
 			</div>
 			
 			<div class="col-md-9 mx-auto">
-			<p class=" lead text-center">A <a href="https://tinytiny.app" target="_blank" rel="noopener noreferrer">Tiny Tiny App</a> to help you keep track of stuff and get on with your day.</p>
+			<h1 class="text-center pb-0 mb-0">Just log it.</h1>
+			<p class="text-center lead">Say goodbye to forgetting.</p>
 			
-			<p class="text-center">
-				<a href="{% url 'django_registration_register' %}" class="btn btn-outline-success">Register</a> 
+			<p class="text-center py-1">
+				<a href="{% url 'django_registration_register' %}" class="btn btn-outline-primary">Register</a> 
 				<a href="{% url 'login' %}" class="btn btn-primary">Sign In</a>
 			</p>
 			<div class="card">
 			  <img src="{% static 'img/tour/collections.png'%}" class="card-img-top img-fluid" alt="collections">
 			  <div class="card-body">
-			    <p class="card-text">Create collections of things to track and keep things tidy and easy to access.</p>
+			    <p class="card-text">Create collections of things to track.</p>
 			  </div>
 			</div>
 			
@@ -28,7 +29,7 @@
 			<div class="card">
 			  <img src="{% static 'img/tour/collection-car.png'%}" class="card-img-top img-fluid" alt="collections">
 			  <div class="card-body">
-			    <p class="card-text">One-click tracking of stuff. Leave a comment (if you want).</p>
+			    <p class="card-text">Log stuff with one click.</p>
 			  </div>
 			</div>
 			</div>
@@ -37,13 +38,42 @@
 			<div class="card">
 			  <img src="{% static 'img/tour/search.png'%}" class="card-img-top img-fluid" alt="collections">
 			  <div class="card-body">
-			    <p class="card-text">Search for stuff you've logged. No need to remember anything.</p>
+			    <p class="card-text">Search for stuff you've logged.</p>
 			  </div>
 			</div>
 			</div>
 
+
 			
-			
+			<div class="py-3">
+				<h3 class="text-center pb-3">Frequently Asked Questions</h3>
+				
+				<p class="fw-bold">Is there a tutorial?</p>
+				<p>Yes, <a href="#">view the tutorial</a>.</p>
+				
+				<p class="fw-bold">Is Tiny Tiny Log free?</p>
+				<p>Yes, it is free. You are welcome to use this app for free.</p>
+				
+				<p class="fw-bold">Do you sell my information?</p>
+				<p>No, information is not sold. The app does not track you either.</p>
+				
+				<p class="fw-bold">Can I delete my information?</p>
+				<p>Yes, you can delete any or all of your information at any time.</p>
+				
+				<p class="fw-bold">Who built this?</p>
+				<p>This app was produced by <a href="https://tinytiny.app">Tiny Tiny App</a> with the hope that you can benefit and enjoy it.</p>
+				
+				<p class="fw-bold">Why did you build this?</p>
+				<p>Please read the <a href="https://tinytiny.app">Tiny Tiny App manifesto</a>.</p>
+				
+				<p class="fw-bold">Will you send me emails?</p>
+				<p>Yes, you might receive some emails related to the app and to <a href="https://tinytiny.app">Tiny Tiny App</a>. However, there's no set schedule. Your inbox won't be spammed.</p>
+				
+				<p class="fw-bold">Do you accept donations?</p>
+				<p>Not at the moment. Donate to your charity of choice instead.</p>
+				
+			</div>
+						
 			
 			
 			
