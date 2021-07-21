@@ -5,7 +5,7 @@ from django.contrib import messages
 from django.views.generic import View
 from django.shortcuts import get_object_or_404, redirect
 from django.core.paginator import Paginator
-from core.htmx_views import HtmxTemplateView, HtmxFormView, HtmxUpdateView
+from django_htmx_extras.views.generic import HtmxTemplateView, HtmxFormView, HtmxUpdateView
 from .forms import CreateCollectionForm, UpdateCollectionForm, CreateItemForm, UpdateItemForm
 from .models import Collection, Item, Event
 
